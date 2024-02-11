@@ -1,0 +1,13 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.21"
+  testImplementation 'org.jetbrains.kotlin:kotlin-test'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+}
+
+test {
+  useJUnitPlatform()
+}
