@@ -16,8 +16,8 @@ public fun fahre() {
         return
     }
 
-    var direction = world.getRoverDirection()
-    var position = world.getRoverPosition()
+    val direction = world.getRoverDirection()
+    val position = world.getRoverPosition()
 
     when (direction) {
         Direction.Right -> {
@@ -38,7 +38,7 @@ public fun fahre() {
 public fun drehe(richtung: String) {
     Thread.sleep(getTickSpeed())
 
-    var direction = world.getRoverDirection()
+    val direction = world.getRoverDirection()
     val index = rotations.indexOf(direction)
 
     when (richtung) {
@@ -61,7 +61,7 @@ public fun drehe(richtung: String) {
 public fun analysiereGestein() {
     Thread.sleep(getTickSpeed())
 
-    var position = world.getRoverPosition()
+    val position = world.getRoverPosition()
 
     world.removeEntity {
         it.x == position.x && it.y == position.y && it is Rock
@@ -80,16 +80,37 @@ public fun setzeMarke() {
 }
 
 public fun gesteinVorhanden(): Boolean {
-    var position = world.getRoverPosition()
+    val position = world.getRoverPosition()
 
     return world.hasEntity {
         it.x == position.x && it.y == position.y && it is Rock
     }
 }
 
+public fun markeVorhanden(): Boolean {
+    val position = world.getRoverPosition()
+
+    return world.hasEntity {
+        it.x == position.x && it.y == position.y && it is Marker
+    }
+}
+
+public fun wandVorhanden(): Boolean {
+    val position = world.getRoverPosition()
+
+    val coordinate = when (world.getRoverDirection()) {
+        Direction.Right -> Position(position.x+1,position.y)
+        Direction.Left -> Position(position.x-1,position.y)
+        Direction.Up -> Position(position.x,position.y+1)
+        Direction.Down -> Position(position.x,position.y-1)
+    }
+
+    return coordinate.x < 0 || coordinate.y < 0 || coordinate.x >= world.size.x || coordinate.y >= world.size.y
+}
+
 public fun huegelVorhanden(richtung: String): Boolean {
-    var position = world.getRoverPosition()
-    var direction = world.getRoverDirection()
+    val position = world.getRoverPosition()
+    val direction = world.getRoverDirection()
 
     val coordinates = listOf(
         Position(position.x, position.y+1), // North
@@ -146,7 +167,7 @@ public fun huegelVorhanden(richtung: String): Boolean {
 public fun entferneMarke() {
     Thread.sleep(getTickSpeed())
 
-    var position = world.getRoverPosition()
+    val position = world.getRoverPosition()
     world.removeEntity {
         it.x == position.x && it.y == position.y && it is Marker
     }
